@@ -1,0 +1,6 @@
+@DSCC.API_HostAddress = http://localhost:5168
+
+GET {{DSCC.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
