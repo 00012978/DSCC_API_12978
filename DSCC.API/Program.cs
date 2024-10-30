@@ -1,4 +1,5 @@
 using DSCC.API.Data;
+using DSCC.API.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<MainDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<IPetRepository, PetRepository>(); // register pet repository
 
 var app = builder.Build();
 
