@@ -1,5 +1,7 @@
-﻿using DSCC.API.Data.Models;
+﻿using DSCC.API.Data;
+using DSCC.API.Data.Models;
 using DSCC.API.Data.Repositories;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,14 +19,16 @@ public class AdoptionController : ControllerBase
     }
     // GET: api/<AdoptionController>
     [HttpGet]
-    public async Task<IEnumerable<Adoption>> Get()
+    public async Task<IEnumerable<AdoptionResponse>> Get()
     {
-        return await _repository.GetAll();
+        var adoptions = await _repository.GetAll();
+        var result = adoptions.Adapt <IEnumerable<AdoptionResponse>>();
+        return result;
     }
 
     // GET api/<AdoptionController>/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Adoption>> Get(int id)
+    public async Task<ActionResult<AdoptionResponse>> Get(int id)
     {
         var result = await _repository.GetById(id);
 
@@ -38,14 +42,14 @@ public class AdoptionController : ControllerBase
 
     // POST api/<AdoptionController>
     [HttpPost]
-    public async Task<Adoption> Post(Adoption adoption)
+    public async Task<AdoptionResponse> Post(AdoptionRequest adoption)
     {
         return await _repository.Create(adoption);
     }
 
     // PUT api/<AdoptionController>/5
     [HttpPut("{id}")]
-    public async Task Put(int id, [FromBody] Adoption adoption)
+    public async Task Put(int id, [FromBody] AdoptionRequest adoption)
     {
         await _repository.Update(id, adoption);
     }

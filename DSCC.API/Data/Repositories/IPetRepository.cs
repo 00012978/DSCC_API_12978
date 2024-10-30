@@ -4,9 +4,9 @@ namespace DSCC.API.Data.Repositories;
 
 public interface IPetRepository
 {
-    Task<IEnumerable<Pet>> GetAll();
-    Task<Pet?> GetById(int id);
-    Task<Pet> Create(Pet pet);
-    Task Update(int id, Pet pet);
+    Task<IEnumerable<PetResponse>> GetAll();
+    Task<PetResponse?> GetById(int id);
+    Task<PetResponse> Create(PetRequest pet);
+    Task Update(int id, PetRequest pet);
     Task Delete(int id);
 }

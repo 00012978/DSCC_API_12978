@@ -1,4 +1,5 @@
 ﻿using DSCC.API.Data.Models;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace DSCC.API.Data.Repositories;
@@ -12,27 +13,32 @@ public class PetRepository : IPetRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Pet>> GetAll()
+    public async Task<IEnumerable<PetResponse>> GetAll()
     {
+
         var pets = await _context.Pets
             .Include(a => a.Adoption)
             .ToListAsync();
-        return pets;
+        var res = pets.Adapt<List<PetResponse>>();
+        return res;
     }
 
-    public async Task<Pet?> GetById(int id)
+    public async Task<PetResponse?> GetById(int id)
     {
         var pet = await _context.Pets
             .Include(a => a.Adoption)
             .FirstOrDefaultAsync(t => t.Id == id);
-        return pet;
+        var res = pet.Adapt<PetResponse?>();
+        return res;
     }
 
-    public async Task<Pet> Create(Pet pet)
+    public async Task<PetResponse> Create(PetRequest pet)
     {
-        _context.Pets.Add(pet);
+        var req = pet.Adapt<Pet>();
+        _context.Pets.Add(req);
         await _context.SaveChangesAsync();
-        return pet;
+        var res = req.Adapt<PetResponse>();
+        return res;
     }
 
     public async Task Delete(int id)
@@ -46,8 +52,9 @@ public class PetRepository : IPetRepository
     }
 
 
-    public async Task Update(int id, Pet pet)
+    public async Task Update(int id, PetRequest pet)
     {
+        var req = pet.Adapt<Pet>();
         _context.Entry(pet).State = EntityState.Modified;
 
         try
