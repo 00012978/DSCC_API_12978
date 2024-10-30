@@ -17,6 +17,7 @@ builder.Services.AddDbContext<MainDbContext>(options =>
 });
 
 builder.Services.AddScoped<IPetRepository, PetRepository>(); // register pet repository
+builder.Services.AddScoped<IAdoptionRepository, AdoptionRepository>(); // register adoption repository
 
 var app = builder.Build();
 
