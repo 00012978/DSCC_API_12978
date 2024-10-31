@@ -55,7 +55,8 @@ public class PetRepository : IPetRepository
     public async Task Update(int id, PetRequest pet)
     {
         var req = pet.Adapt<Pet>();
-        _context.Entry(pet).State = EntityState.Modified;
+        req.Id = id;
+        _context.Entry(req).State = EntityState.Modified;
 
         try
         {

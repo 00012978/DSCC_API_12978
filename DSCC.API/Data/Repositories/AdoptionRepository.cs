@@ -25,7 +25,7 @@ public class AdoptionRepository : IAdoptionRepository
         await _context.SaveChangesAsync();
 
         pet.AdoptionId = req.Id;
-        pet.Adoption = req; 
+        pet.Adoption = req;
         await _context.SaveChangesAsync(); // Save changes to Pet
 
         var res = req.Adapt<AdoptionResponse>();
