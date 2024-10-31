@@ -1,0 +1,20 @@
+version: 0.0
+os: linux
+files:
+  - source: ApiApp
+    destination: /var/www
+  - source: DeployScripts/webapi.service
+    destination: /etc/systemd/system
+hooks:
+  BeforeInstall:
+    - location: DeployScripts/before_install.sh
+      timeout: 120
+      runas: root
+  ApplicationStop:
+    - location: DeployScripts/stop_app.sh
+      timeout: 120
+      runas: root
+  ApplicationStart:
+    - location: DeployScripts/start_app.sh
+      timeout: 120
+      runas: root
